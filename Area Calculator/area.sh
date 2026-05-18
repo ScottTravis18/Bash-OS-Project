@@ -17,7 +17,9 @@ unit_status=$?
 if [ $unit_status = 0 ]; then
 
     echo "Unit Selected"
+
     #This statement converts text to lowercase, this is to prevent errors from having 'CM' or 'IN' instead of 'cm' 'in'
+    #https://stackoverflow.com/questions/2264428/how-to-convert-a-string-to-lower-case-in-bash
     unit=$(echo $unit | tr '[:upper:]' '[:lower:]')
 
 else
@@ -43,8 +45,8 @@ while [ "$width_condition" = true ]
 do
 
     width=$(whiptail --title "Width Input Box" --inputbox "Please Enter A Width For A Rectangle?" 10 60 3>&1 1>&2 2>&3)
-    exitstatus=$?
-    if [ $exitstatus = 0 ]; then
+    width_status=$?
+    if [ $width_status = 0 ]; then
 
         echo "The width is:" $width
 
@@ -69,8 +71,8 @@ while [ "$length_condition" = true ]
 do
 
 length=$(whiptail --title "Length Input Box" --inputbox "Please Enter A Length For A Rectangle?" 10 60 3>&1 1>&2 2>&3)
-exitstatus=$?
-if [ $exitstatus = 0 ]; then
+length_status=$?
+if [ $length_status = 0 ]; then
 
     echo "The Length is:" $length
 
@@ -97,27 +99,38 @@ while [ "$output_unit_condition" = true ]
 
 do
 
-    output_unit=$(whiptail --title "Which unit do you want the area in?" --yes-button "Centimetres" --no-button "Inches" --yesno "Select A Unit" 10 60 3>&1 1>&2 2>&3)
-    exitstatus=$?
+    output_unit=$(whiptail --title "Which unit do you want the area in?" --yes-button "Metres Squared" --no-button "Inches Squared" --yesno "Select A Unit" 10 60 3>&1 1>&2 2>&3)
+    output_unit_status=$?
 
-    #If centimetres is pressed then:
-    if [ exitstatus=0 ]; then
+    #If metres squared is pressed then:
+    if [ $output_unit_status=0 ]; then
 
-        #If the input unit is cm then... do nothing
+        #If the input unit is cm then you need to change unit to metres
         if [ $unit="cm" ]; then
 
-            #The colon ':' should do nothing
-            :
+        echo 'this is centi'
+            #Changing the measurements from centimetres to metres
+            
+            length=$(echo "scale=2; $length / 100" | bc)
+            width=$(echo "scale=2; $width / 100" | bc)
+            
+            echo 'length is' $length
+            unit="m"
 
+
+        #In this scenario, output unit is metres squared but input unit is inches, so we need to change unit as well
         else
 
-            length=$(( length / 2.54 ))
-            width=$(( width / 2.54 ))
+            length=$(echo "scale=2; $length / 100 * 2.54" | bc)
+            width=$(echo "scale=2; $width / 100 * 2.54" | bc)
+
+            echo $length
+            echo $width
 
         fi
 
 
-    #If inches is pressed then:
+    #If inches squared is pressed then:
     else
 
         #If the input unit is inches then... do nothing
