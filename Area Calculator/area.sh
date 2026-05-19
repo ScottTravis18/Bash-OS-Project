@@ -115,6 +115,9 @@ do
         if [ "$unit" = "cm" ]; then
 
             #Changing the measurements from centimetres to metres          
+            #
+
+
             length=$(echo "scale=8; $length / 100" | bc)
             width=$(echo "scale=8; $width / 100" | bc)
 
@@ -143,7 +146,10 @@ do
         #If the input unit is inches then do nothing
         if [ $unit = "in" ]; then
 
+
+            #https://stackoverflow.com/questions/21011010/how-to-break-out-of-an-if-loop-in-bash
             :
+
 
         #If input unit is centimetres, then you have to convert to inches
         else
