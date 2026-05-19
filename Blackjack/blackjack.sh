@@ -34,6 +34,10 @@ random() {
 
 deal() {
 
+    #Here I am creating a reference to the array name thats passed in as a parameter instead of just using the array name itself, for some reason it just seems to work this way and not the other way [insert cool shrug]
+    #https://devdocs.io/bash/shell-parameters (Use Ctrl + F and search 'nameref' when on webpage)
+    local -n hand=$1
+
     #num_cards stores the current number of cards in the deck array
     num_cards="${#deck[@]}"
 
@@ -44,10 +48,15 @@ deal() {
     card=${deck[number]}
     echo "This is the card to be dealt "$card
 
-    #Now the card will be added to the array for either player cards or dealer cards
 
-    player+=($card)
+    #Now the card will be added to the array for either player cards or dealer cards
+    #$1 is a variable that will be replaced with the first function parameter, it is to be either 'player' or 'dealer', so that it can be used to add a card to one of their hands
+
+    echo "The cards currently in the player array is: ""${player[@]}"
+    #The reference to the array is used here, and the link is here again: https://devdocs.io/bash/shell-parameters
+    hand+=($card)
+    echo "The cards currently in the player array is: ""${player[@]}"
 
 }
 
-deal
+deal player
