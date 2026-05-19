@@ -89,6 +89,10 @@ length_condition=false
 done
 
 
+
+
+
+
 ######################################################################
 #This section is for calculating the area of the rectangle using the measurements inputted
 
@@ -103,26 +107,27 @@ do
     output_unit_status=$?
 
     #If metres squared is pressed then:
-    if [ $output_unit_status=0 ]; then
+    if [ "$output_unit_status" = 0 ]; then
+
+        output_unit=m^2
 
         #If the input unit is cm then you need to change unit to metres
-        if [ $unit="cm" ]; then
+        if [ "$unit" = "cm" ]; then
 
-        echo 'this is centi'
-            #Changing the measurements from centimetres to metres
-            
-            length=$(echo "scale=2; $length / 100" | bc)
-            width=$(echo "scale=2; $width / 100" | bc)
-            
-            echo 'length is' $length
-            unit="m"
+            #Changing the measurements from centimetres to metres          
+            length=$(echo "scale=8; $length / 100" | bc)
+            width=$(echo "scale=8; $width / 100" | bc)
+
+            echo $length
+            echo $width
 
 
         #In this scenario, output unit is metres squared but input unit is inches, so we need to change unit as well
         else
 
-            length=$(echo "scale=2; $length / 100 * 2.54" | bc)
-            width=$(echo "scale=2; $width / 100 * 2.54" | bc)
+            #These next 2 lines convert the measurements in inches to metres
+            length=$(echo "scale=8; $length / 100 * 2.54" | bc)
+            width=$(echo "scale=8; $width / 100 * 2.54" | bc)
 
             echo $length
             echo $width
@@ -133,26 +138,29 @@ do
     #If inches squared is pressed then:
     else
 
-        #If the input unit is inches then... do nothing
-        if [ $unit="in" ]; then
+        output_unit=in^2
+
+        #If the input unit is inches then do nothing
+        if [ $unit = "in" ]; then
 
             :
 
+        #If input unit is centimetres, then you have to convert to inches
         else
 
-            length=$(( length * 2.54 ))
-            width=$(( width * 2.54 ))
+            length=$(echo "scale=8; $length / 2.54" | bc)
+            width=$(echo "scale=8; $width / 2.54" | bc)
 
         fi
     
     fi
+
+#This calculates the area
+area=$(echo "scale=8; $width * $length" | bc)
 
 #Ends the loop
 output_unit_condition=false
 
 done
 
-#This calculates the area
-area=$(( $width * $length ))
-
-echo 'The area of the rectangle is:' $area 
+echo 'The area of the rectangle is:' $area $output_unit
