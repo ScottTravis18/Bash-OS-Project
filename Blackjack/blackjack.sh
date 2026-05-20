@@ -10,7 +10,7 @@ deck=("AH" "2H" "3H" "4H" "5H" "6H" "7H" "8H" "9H" "10H" "JH" "QH" "KH" "AD" "2D
 declare -a player=()
 declare -a dealer=()
 
-############################################################
+############################################################ FUNCTIONS #####################################################
 
 
 deal() {
@@ -52,8 +52,34 @@ deal() {
 
 }
 
-#Example for using deal function: deal player
 
+dealer_choice() {
+
+    dealer_card_num="${#dealer[@]}"
+
+    
+
+    if [ $dealer_card_num -lt 1 ]; then
+
+        echo 'dealer +2'
+        deal dealer
+        deal dealer
+
+    
+    elif [  ]
+
+
+    fi
+
+
+}
+
+
+
+
+
+#Example for using deal function: deal player
+########################################################################################################################################################################
 
 #This is where the program execution will begin
 while true;
@@ -92,17 +118,31 @@ do
             #add if statement so it only adds 2 cards on the first go, every other go it adds 1 card each
             #Dealing 2 cards each for player and dealer
 
-            if [ $player_card_num -lt 1 ] && [ $dealer_card_num -lt 1 ]; then
-                echo '2 cards'
+            if [ $player_card_num -lt 1 ]; then
+                echo '2 cards for player'
                 deal player
                 deal player
-                deal dealer
-                deal dealer
 
             else
 
-                echo '1 cardqeqeqe'
+                echo '1 card for player'
                 deal player
+               
+
+            fi
+
+            #PUT DEALER_CHOICE function here ish
+
+            if [ $dealer_card_num -lt 1 ]; then
+
+                echo 'dealer +2'
+                deal dealer
+                deal dealer
+
+
+            elif [  ]
+
+                echo 'dealer +1'
                 deal dealer
 
 
