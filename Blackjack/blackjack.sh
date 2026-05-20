@@ -7,33 +7,15 @@ deck=("AH" "2H" "3H" "4H" "5H" "6H" "7H" "8H" "9H" "10H" "JH" "QH" "KH" "AD" "2D
 #Player and dealer card arrays, contains the cards the player and dealer have been dealt
 #https://stackoverflow.com/a/53018127
 
-# Source - https://stackoverflow.com/a/53018127
-# Posted by tmt, modified by community. See post 'Timeline' for change history
-# Retrieved 2026-05-19, License - CC BY-SA 4.0
-
 declare -a player=()
 declare -a dealer=()
 
-
-#I will be generating random numbers using $RANDOM
-#number=$(( $RANDOM % N )) will allow me to generate a number between 0 and N-1
-#https://stackoverflow.com/questions/6212219/passing-parameters-to-a-bash-function
-
-
 ############################################################
-#The following function random and it being called 'random 52' is just for testing
-random() {
 
-    number=$(( $RANDOM % $1 ))
-    echo $number
-
-}
-#random 52
-############################################################
 
 deal() {
 
-    #Here Im creating a reference to the array name thats passed in as a parameter instead of just using the array name itself, for some reason it just seems to work this way and not the other way [insert cool shrug]
+    #Im creating a reference to the array name that is a parameter, it works better this way for some reason
     #https://devdocs.io/bash/shell-parameters (Use Ctrl + F and search 'nameref' when on webpage)
     local -n hand=$1
 
@@ -43,6 +25,8 @@ deal() {
     num_cards="${#deck[@]}"
 
 
+
+    #https://stackoverflow.com/questions/6212219/passing-parameters-to-a-bash-function
     #number variable stores a randomly generated number that ranges from position 0 to N-1, where N=number of cards in deck
     number=$(( $RANDOM % $num_cards ))
 
@@ -51,22 +35,20 @@ deal() {
     card=${deck[number]}
 
     #TESTING
-    echo "This is the card to be dealt "$card
+    #echo "This is the card to be dealt "$card
 
 
     #Now the card will be added to the array for either player cards or dealer cards
-    #$1 is a variable that will be replaced with the first function parameter, it is to be either 'player' or 'dealer', so that it can be used to add a card to one of their hands
 
-
-    echo "The cards currently in the player array is: ""${player[@]}"
     #The reference to the array is used here, and the link is here again: https://devdocs.io/bash/shell-parameters
     #Another link: https://gist.github.com/magnetikonline/0ca47c893de6a380c87e4bdad6ae5cf7 - Cheatsheet for bash arrays
     hand+=($card)
-    echo "The cards currently in the player array is: ""${player[@]}"
 
 
     #This remove the card from the deck, as it has been dealt: https://devdocs.io/bash/arrays
     unset deck[number]
+    #This next line should get rid of the gaps left by removing the card
+    deck=("${deck[@]}")
 
 }
 
@@ -78,12 +60,78 @@ while true;
 
 do
 
-    # https://linuxize.com/post/bash-read/ - Reading characters
-    #use this/finish it for checking for key presses
-    #read -r -n 1 key
-
-
     echo 'Welcome to Blackjack!!!'
     echo "Press a key to select your actions: Q=Quit H=Hit S=Stand"
+
+
+    # https://linuxize.com/post/bash-read/ - Reading characters
+    
+    #This checks for key presses
+    read -r -n 1 key
+
+    #The switch statement checks for different key presses, each one is a different action
+
+    case "$key" in
+
+        #Pressing Q quits the game
+        q|Q)
+            
+            echo -e "\nQuitting Game"
+            break
+
+            ;;
+
+        h|H)
+
+            #The following 2 statements check how many cards are in player/dealer hands
+            player_card_num="${#player[@]}"
+            dealer_card_num="${#dealer[@]}"
+            
+            echo -e '\nDealing cards...'
+
+            #add if statement so it only adds 2 cards on the first go, every other go it adds 1 card each
+            #Dealing 2 cards each for player and dealer
+
+            if [ $player_card_num -lt 1 ] && [ $dealer_card_num -lt 1 ]; then
+                echo '2 cards'
+                deal player
+                deal player
+                deal dealer
+                deal dealer
+
+            else
+
+                echo '1 cardqeqeqe'
+                deal player
+                deal dealer
+
+
+            fi
+
+            player_card_num="${#player[@]}"
+            dealer_card_num="${#dealer[@]}"
+            
+
+            dealer_cards=()
+
+            for (( i=1; i<$dealer_card_num; i++ )); do
+
+                dealer_cards+=("${dealer[i]}")
+
+            done
+
+            echo "The cards the dealer has are: X" "${dealer_cards[@]}"
+
+            echo "The cards you have are: ""${player[@]}"
+
+
+            ;;
+
+
+        *)
+            echo 'Press One of The Available Options: Q, H, S'
+            ;;
+    esac
+
 
 done
