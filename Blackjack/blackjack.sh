@@ -59,17 +59,17 @@ dealer_choice() {
 
     
 
-    if [ $dealer_card_num -lt 1 ]; then
+    # if [ $dealer_card_num -lt 1 ]; then
 
-        echo 'dealer +2'
-        deal dealer
-        deal dealer
+    #     echo 'dealer +2'
+    #     deal dealer
+    #     deal dealer
 
     
-    elif [  ]
+    # elif [  ]
 
 
-    fi
+    # fi
 
 
 }
@@ -86,6 +86,7 @@ while true;
 
 do
 
+############################       Beginning of Game               ################################
     echo 'Welcome to Blackjack!!!'
     echo "Press a key to select your actions: Q=Quit H=Hit S=Stand"
 
@@ -144,6 +145,13 @@ do
 
                 echo 'dealer +1'
                 deal dealer
+
+                #The following 2 lines are AI generated.  To be modified so they can fit the program
+                rank=${card:0:${#card}-1}
+                suit=${card: -1}
+
+
+            else
 
 
             fi

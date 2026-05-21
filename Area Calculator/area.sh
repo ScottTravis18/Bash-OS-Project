@@ -48,7 +48,7 @@ do
     width_status=$?
     if [ $width_status = 0 ]; then
 
-        echo "The width is:" $width
+        echo "The width is:" $width $unit
 
     else
 
@@ -74,7 +74,7 @@ length=$(whiptail --title "Length Input Box" --inputbox "Please Enter A Length F
 length_status=$?
 if [ $length_status = 0 ]; then
 
-    echo "The Length is:" $length
+    echo "The Length is:" $length $unit
 
 else
 
@@ -121,8 +121,8 @@ do
             length=$(echo "scale=8; $length / 100" | bc)
             width=$(echo "scale=8; $width / 100" | bc)
 
-            echo $length
-            echo $width
+            echo "Length is now" $length $output_unit
+            echo "Width is now" $width $output_unit
 
 
         #In this scenario, output unit is metres squared but input unit is inches, so we need to change unit as well
@@ -132,8 +132,8 @@ do
             length=$(echo "scale=8; $length / 100 * 2.54" | bc)
             width=$(echo "scale=8; $width / 100 * 2.54" | bc)
 
-            echo $length
-            echo $width
+            echo "Length is now" $length $output_unit
+            echo "Width is now" $width $output_unit
 
         fi
 
