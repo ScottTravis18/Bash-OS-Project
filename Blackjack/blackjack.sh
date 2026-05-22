@@ -62,29 +62,6 @@ deal() {
 }
 
 
-dealer_choice() {
-
-    dealer_card_num="${#dealer[@]}"
-
-    
-
-    # if [ $dealer_card_num -lt 1 ]; then
-
-    #     echo 'dealer +2'
-    #     deal dealer
-    #     deal dealer
-
-    
-    # elif [  ]
-
-
-    # fi
-
-
-}
-
-
-
 points() {
 
     local card=$1
