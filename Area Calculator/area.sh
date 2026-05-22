@@ -148,7 +148,8 @@ do
 
 
             #https://stackoverflow.com/questions/21011010/how-to-break-out-of-an-if-loop-in-bash
-            :
+            echo "Length is now" $length $output_unit
+            echo "Width is now" $width $output_unit
 
 
         #If input unit is centimetres, then you have to convert to inches
