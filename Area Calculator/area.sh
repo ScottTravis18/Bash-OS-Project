@@ -163,10 +163,9 @@ do
 
 #This calculates the area
 area=$(echo "scale=8; $width * $length" | bc)
+echo 'The area of the rectangle is:' $area $output_unit
 
 #Ends the loop
 output_unit_condition=false
 
 done
-
-echo 'The area of the rectangle is:' $area $output_unit
