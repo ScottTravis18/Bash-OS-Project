@@ -143,7 +143,7 @@ do
 
         output_unit=in^2
 
-        #If the input unit is inches then do nothing
+        #If the input unit is inches then do nothing (aside from echo the measurements)
         if [ $unit = "in" ]; then
 
 
