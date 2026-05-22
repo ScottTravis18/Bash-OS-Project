@@ -138,12 +138,12 @@ points() {
 ########################################################################################################################################################################
 
 #This is where the program execution will begin
+echo 'Welcome to Blackjack!!!'
 while true;
 
 do
 
 ############################       Beginning of Game               ################################
-    echo 'Welcome to Blackjack!!!'
     echo "Press a key to select your actions: Q=Quit H=Hit S=Stand"
 
 
